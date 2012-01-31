@@ -1,0 +1,17 @@
+
+% if message and message.get('msg'):
+	<div class="${message['type']}">${message['msg']}</div>
+% endif
+<div class="view-element">
+	<h2>${_(u'Internationalization')}</h2>
+</div>
+<div id="metadata">
+	<div class="bloque myblock" style="width: 17em;">
+		<h3>${_('Select language to translate')}</h3>
+		<ul>
+			%for lang in languages:
+				<li style="text-indent: 1em;"><a href="/${language}/translate/${lang[0]}">${lang[1]}</a></li>
+			%endfor
+		</ul>
+	</div>
+</div>

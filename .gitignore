@@ -1,1 +1,5 @@
 po_web_translator.egg-info
+web_translator.egg-info
+*.pyc
+.DS_Store
+db

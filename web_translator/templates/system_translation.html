@@ -1,0 +1,33 @@
+
+
+
+
+<div id='translation'>
+    <form method='post' action="/${language}/translate/${lang_to}" id='translation_form'>
+        <table>
+            <tr><td>${_('Message in english')}</td><td>${_('Translation')}</td><td>${_('Visibility')}</td></tr>
+            % for msg in msgs.fetchall():
+                <%doc>
+                    ['terms condition text', 'faq text', 'about us text']
+                    es igual a ['4f16c904fbb170d18a4f6466fe94c6e8', '5ceeabee9ae7ec7ba45782be17850ef5', '9d5276f5a1f7d702ad837a474060f039']
+                </%doc>
+
+                    <tr>
+                        <td><textarea name="msgid[]" disabled="disabled">${msg[0]}</textarea></td>
+                        <td><textarea name="msg[]">${msg[1]}</textarea></td>
+                        <td><select name="msglvl[]">
+                            <option value=""></option>
+                            %for level in levels:
+                                <option value="${level}"
+                                        %if level == msg[2]:
+                                            selected="selected"
+                                        %endif
+                                        >${level}</option>
+                            %endfor
+                        </select></td>
+                    </tr>
+            % endfor
+            <tr><td></td><td></td><td><button>${_('Submit')}</button></td></tr>
+        </table>
+    </form>
+</div>
