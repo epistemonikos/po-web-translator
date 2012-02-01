@@ -3,3 +3,4 @@ web_translator.egg-info
 *.pyc
 .DS_Store
 db
+scripts/localhost.cfg
