@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from random import random
+from hashlib import sha256
+
 from polib import pofile, POEntry, POFile
 from bottle import request
 
@@ -16,6 +19,10 @@ def generate_db():
             sql_query += "," + lang[0] + " text"
         sql_query += ",user_level text, url text)"
         request.db_cursor.execute(sql_query)
+
+    table_exists = request.db_cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='links';")
+    if not table_exists.fetchone():
+        request.db_cursor.execute("create table links(hash text not null primary key, role text not null, lang_to text not null)")
 
     for lang in LANGUAGES:
         messages = [e for e in pofile(LOCALE_PATH + '/' + lang[0] + '/LC_MESSAGES/epistemonikos.po') if not e.obsolete]
@@ -62,13 +69,16 @@ def save_translation(lang_to):
         for i in range(len(msgids)):
             request.db_cursor.execute("UPDATE messages set "
                                       + lang_to.decode('utf-8')
-                                      + "=?, user_level=?, url=? where id=?",
+                                      + "=? where id=?",
                                         (msgstrs[i].decode('utf-8'),
-                                         msglvl[i].decode('utf-8'),
+                                         msgids[i].decode('utf-8')))
+            if msglvl and msgurl:
+                request.db_cursor.execute("UPDATE messages set user_level=?,url=? where id=?",
+                                        (msglvl[i].decode('utf-8'),
                                          msgurl[i].decode('utf-8'),
                                          msgids[i].decode('utf-8')))
 
-        return 'Translated messages saved for %s' % [lang[1] for lang in LANGUAGES if lang[0] == lang_to][0]
+        return 'Saved messages saved for %s' % [lang[1] for lang in LANGUAGES if lang[0] == lang_to][0]
 
 def generate_po_from_db(lang_to):
     if lang_to in [lang[0] for lang in LANGUAGES]:
@@ -86,5 +96,25 @@ def generate_po_from_db(lang_to):
 def generate_all_po():
     msg = ''
     for lang in LANGUAGES:
-        msg += generate_po_from_db(lang[0]) +'/n'
+        msg += generate_po_from_db(lang[0]) +'<br/>'
     return msg
+
+def panel():
+    return render_template("panel.html", roles = TRANSLATOR_LEVELS)
+
+def generate_link():
+    role = request.POST.get('role')
+    lang_to = request.POST.get('lang_to')
+    seed = random()
+    hash = sha256(str(seed)).hexdigest()
+    alreadyindb = request.db_cursor.execute("Select 1 from links where hash=?",(hash,))
+    if alreadyindb.fetchone():
+        return generate_link(role)
+    request.db_cursor.execute("insert into links(hash,role,lang_to) values(?,?,?)",(hash,role,lang_to))
+    return 'http://' + request.headers.get('host','') + '/filtered_translate/' + hash
+
+def decode_url(hash):
+    params = request.db_cursor.execute("select role, lang_to from links where hash=?",(hash,)).fetchone()
+    if params:
+        return system_translate_by_role(params[1], params[0])
+    return "Not Found"
