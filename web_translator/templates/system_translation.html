@@ -1,4 +1,15 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" type="text/css" href="/assets/styles/translator.css" />
+<script type="text/javascript" src="/assets/js/jquery-latest.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    for(var i in $.find('.ta')){
+       $($(".ta")[i]).css("height", $($(".ta")[i]).prop("scrollHeight"));
+    }});
+</script>
+</head>
+<body>
 <h1>${_('Translate messages for ')}${[lang[1] for lang in languages if lang[0]==lang_to][0]}</h1>
 <div id='translation'>
     <form method='post' action="/${language}/translate/${lang_to}" id='translation_form'>
@@ -15,8 +26,8 @@
                 </%doc>
 
                     <tr>
-                        <td><textarea name="msgid[]" readonly>${msg[0]}</textarea></td>
-                        <td><textarea name="msg[]">${msg[1]}</textarea></td>
+                        <td><textarea class="ta" name="msgid[]" readonly>${msg[0]}</textarea></td>
+                        <td><textarea class="translation" name="msg[]">${msg[1]}</textarea></td>
                         %if not role or role =='Administrator':
                             <td><select name="msglvl[]">
                                 <option value=""></option>
@@ -41,4 +52,5 @@
             <tr><td></td><td></td><td><button>${_('Submit')}</button></td><td></td></tr>
         </table>
     </form>
-</div>
+</div></body>
+</html>
