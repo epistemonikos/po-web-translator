@@ -2,12 +2,12 @@
 <html lang="en">
 <head><link rel="stylesheet" type="text/css" href="/assets/styles/translator.css" />
 <script type="text/javascript" src="/assets/js/jquery-latest.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    for(var i in $.find('.ta')){
-       $($(".ta")[i]).css("height", $($(".ta")[i]).prop("scrollHeight"));
-    }});
-</script>
+<!--<script type="text/javascript">-->
+<!--$(document).ready(function(){-->
+    <!--for(var i in $.find('.ta')){-->
+       <!--$($(".ta")[i]).css("height", $($(".ta")[i]).prop("scrollHeight"));-->
+    <!--}});-->
+<!--</script>-->
 </head>
 <body>
 <h1>${_('Translate messages for ')}${[lang[1] for lang in languages if lang[0]==lang_to][0]}</h1>
