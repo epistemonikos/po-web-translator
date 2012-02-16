@@ -8,9 +8,27 @@
        <!--$($(".ta")[i]).css("height", $($(".ta")[i]).prop("scrollHeight"));-->
     <!--}});-->
 <!--</script>-->
+<script type="text/javascript">
+    function empty_only(){
+        $($('.translation[value!=]')).parent().parent().hide();
+        $('#empty_only').attr('disabled','disabled')
+        $('#all').removeAttr('disabled');
+    }
+    function show_all(){
+        $('.translation').parent().parent().show();
+        $('#empty_only').removeAttr('disabled');
+        $('#all').attr('disabled','disabled');
+    }
+    $(document).ready(function(){
+        $('#empty_only').click(empty_only);
+        $('#all').click(show_all);
+        empty_only();
+    });
+</script>
 </head>
 <body>
 <h1>${_('Translate messages for ')}${[lang[1] for lang in languages if lang[0]==lang_to][0]}</h1>
+<p>${_('Show:')}</p> <button id="empty_only">Empty only</button> <button id="all">All</button>
 <div id='translation'>
     <form method='post' action="/${language}/translate/${lang_to}" id='translation_form'>
         <table>
