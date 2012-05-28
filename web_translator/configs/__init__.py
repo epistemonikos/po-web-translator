@@ -4,7 +4,7 @@ import os
 TEMPLATES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../templates")
 LOCALE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../locale")
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../db")
-TRANSLATOR_LEVELS = ['Adminstrator', 'Basic', 'Expert']
+TRANSLATOR_LEVELS = ['Adminstrator', 'Basic', 'Expert', 'PDQ', 'Delete']
 LOCALE_NAME = 'epistemonikos'
 ASSETS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../assets")
 LANGUAGES = [
