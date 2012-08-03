@@ -42,7 +42,7 @@ def scrub(name):
 #@secure('admin','system-translator')
 def system_translate(lang_to):
     if lang_to in [lang[0] for lang in LANGUAGES]:
-        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url from messages where user_level!=?", ('Delete',))
+        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url from messages where user_level is not ?", ('Delete',))
         return render_template('system_translation.html', msgs=messages, lang_to=lang_to, levels=TRANSLATOR_LEVELS)
     else:
         raise BadRequestException()
