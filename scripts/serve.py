@@ -2,6 +2,7 @@
 import os
 import sys
 import ConfigParser
+import site
 
 ALLDIRS = ['/home/translate/envs/pydev/lib/python2.7/site-packages/']
 
