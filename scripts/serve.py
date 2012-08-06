@@ -3,6 +3,25 @@ import os
 import site
 import sys
 import ConfigParser
+import site
+
+ALLDIRS = ['/home/translate/envs/pydev/lib/python2.7/site-packages/']
+
+# Remember original sys.path.
+prev_sys_path = list(sys.path)
+
+# Add each new site-packages directory.
+for directory in ALLDIRS:
+    site.addsitedir(directory)
+
+# Reorder sys.path so new directories at the front.
+new_sys_path = []
+for item in list(sys.path):
+    if item not in prev_sys_path:
+        new_sys_path.append(item)
+        sys.path.remove(item)
+sys.path[:0] = new_sys_path
+
 
 import bottle
 from bottle import run, default_app, route, error, request
