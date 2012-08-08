@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" type="text/css" href="/assets/styles/translator.css" />
+<script type="text/javascript" src="/assets/js/jquery-latest.min.js"></script>
+</head>
+<body>
+<h1>${_('Messages deleted')}</h1>
+<% from base64 import b64encode %>
+<div id='messages'>
+    <table>
+        <tr><td>${_('Message in english')}</td><td></td><td></td>
+        </tr>
+        <% i = 0 %>
+        % for msg in msgs.fetchall():
+                <tr>
+                        <td>${msg[0].replace('>','&gt;').replace('<','&lt;')}</td>
+                        <td><a id="${i}" href="javascript:">${_('Undelete')}</a><input id="${i}message" type="hidden" value="${msg[0].replace('>','&gt;').replace('<','&lt;')}"/></td>
+                        <td><img src="/assets/images/loading_small.gif" style="display: none" id="${i}loading"/></td>
+                </tr>
+            <% i = i+1 %>
+        % endfor
+        %if not role or role =='Administrator':
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('a').click(function(){
+                        i = this.id
+                        msgid = '#'+i+'message'
+                        msgimg = '#'+i+'loading'
+                        msg = $(msgid).val()
+                        parent = this.parentNode
+                        $(msgimg).show(function(){
+                            $.post('/${language}/undelete',{'msg':msg.replace('&gt;','>').replace('&lt;','<')},function(){
+                                $(msgimg).hide();
+                                $(parent).html('Message undeleted');
+                            });
+                        });
+                    });
+                });
+            </script>
+        %endif
+        </table>
+</div></body>
+</html>

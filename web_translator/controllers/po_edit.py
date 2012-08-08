@@ -118,3 +118,12 @@ def decode_url(hash):
     if params:
         return system_translate_by_role(params[1], params[0])
     return "Not Found"
+
+def deleted():
+    messages = request.db_cursor.execute("select id from messages where user_level=?",('Delete',))
+    return render_template("deleted.html", msgs=messages)
+
+def undelete():
+    message = request.POST.get('msg', None)
+    if message is not None:
+        request.db_cursor.execute("update messages set user_level=null where id=?",(message,))
