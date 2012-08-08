@@ -72,6 +72,8 @@ if os.environ.get('EPISTEMONIKOS_WEB_CONFIG'):
     config_path = os.environ.get('EPISTEMONIKOS_WEB_CONFIG')
 elif len(sys.argv) >1:
     config_path = sys.argv[1]
+else:
+    config_path = '/home/translate/repos/po-web-translator/scripts/localhost.cfg'
 
 #Reading config file
 config = ConfigParser.ConfigParser()
