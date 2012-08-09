@@ -86,7 +86,7 @@ def generate_po_from_db(lang_to):
     if lang_to in [lang[0] for lang in LANGUAGES]:
         po_path = LOCALE_PATH + '/' + lang_to + '/LC_MESSAGES/epistemonikos.po'
         mo_path = LOCALE_PATH + '/' + lang_to + '/LC_MESSAGES/epistemonikos.mo'
-        messages = request.db_cursor.execute("select id, " + lang_to + " from messages")
+        messages = request.db_cursor.execute("select id, " + lang_to + " from messages where obsolete is not 1")
         new_file = POFile()
         for msg in messages.fetchall():
             new_file.append(POEntry(msgid=msg[0],msgstr=msg[1]))
