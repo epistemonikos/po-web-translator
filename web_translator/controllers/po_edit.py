@@ -17,7 +17,7 @@ def generate_db():
         sql_query = "CREATE table messages(id text not null primary key"
         for lang in LANGUAGES:
             sql_query += "," + lang[0] + " text"
-        sql_query += ",user_level text, url text, obsolete integer default=0)"
+        sql_query += ",user_level text, url text, obsolete int)"
         request.db_cursor.execute(sql_query)
 
     table_exists = request.db_cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='links';")
