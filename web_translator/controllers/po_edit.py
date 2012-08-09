@@ -17,13 +17,14 @@ def generate_db():
         sql_query = "CREATE table messages(id text not null primary key"
         for lang in LANGUAGES:
             sql_query += "," + lang[0] + " text"
-        sql_query += ",user_level text, url text)"
+        sql_query += ",user_level text, url text, obsolete integer default=0)"
         request.db_cursor.execute(sql_query)
 
     table_exists = request.db_cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='links';")
     if not table_exists.fetchone():
         request.db_cursor.execute("create table links(hash text not null primary key, role text not null, lang_to text not null)")
 
+    request.db_cursor.execute("update messages set obsolete=1")
     for lang in LANGUAGES:
         messages = [e for e in pofile(LOCALE_PATH + '/' + lang[0] + '/LC_MESSAGES/epistemonikos.po') if not e.obsolete]
         for msg in messages:
@@ -32,6 +33,7 @@ def generate_db():
                 request.db_cursor.execute("update messages set " + lang[0] + "=? where id=?", (msg.msgstr, msg.msgid))
             else:
                 request.db_cursor.execute("insert into messages(" + lang[0] + ",id) values(?, ?)", (msg.msgstr, msg.msgid))
+            request.db_cursor.execute("update messages set obsolete=0 where id=?",(msg.msgid,))
 
     return 'Database generated'
 
@@ -42,7 +44,7 @@ def scrub(name):
 #@secure('admin','system-translator')
 def system_translate(lang_to):
     if lang_to in [lang[0] for lang in LANGUAGES]:
-        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url from messages where user_level is not ?", ('Delete',))
+        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url, obsolete from messages where user_level is not ?", ('Delete',))
         return render_template('system_translation.html', msgs=messages, lang_to=lang_to, levels=TRANSLATOR_LEVELS)
     else:
         raise BadRequestException()
