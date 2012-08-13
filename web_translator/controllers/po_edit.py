@@ -51,7 +51,7 @@ def system_translate(lang_to):
 
 def system_translate_by_role(lang_to, role):
     if lang_to in [lang[0] for lang in LANGUAGES]:
-        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url from messages where user_level=?", (role,))
+        messages = request.db_cursor.execute("select id, " + lang_to + ", user_level, url, obsolete from messages where user_level=?", (role,))
         return render_template('system_translation.html', msgs=messages, lang_to=lang_to, role=role)
     else:
         raise BadRequestException()
