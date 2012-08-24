@@ -36,7 +36,7 @@
                 %if not role or role =='Administrator':
                     <td>${_('Visibility')}</td>
                 %endif
-                <td>See in</td></tr>
+                <td>See in</td><td></td></tr>
             % for msg in msgs.fetchall():
                 <%doc>
                     ['terms condition text', 'faq text', 'about us text']
@@ -63,6 +63,11 @@
                                 <input type="text" name="msgurl[]" value="${msg[3] if msg[3] else ''}" />
                             %else:
                                 <a href="${msg[3]}" target="_blank">${msg[3] if msg[3] else ''}</a>
+                            %endif
+                        </td>
+                        <td>
+                            %if msg[4]:
+                                Obsolete
                             %endif
                         </td>
                     </tr>

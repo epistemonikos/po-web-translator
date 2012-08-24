@@ -13,4 +13,6 @@ ROUTES = [
     {'url': '/generate_po/:lang_to', 'method': 'GET', 'controller': po_edit.generate_po_from_db},
     {'url': '/generate_all_po', 'method': 'GET', 'controller': po_edit.generate_all_po},
     {'url': '/generate_link', 'method': 'POST', 'controller': po_edit.generate_link},
+    {'url': '/deleted', 'method': 'GET', 'controller': po_edit.deleted},
+    {'url': '/undelete', 'method': 'POST', 'controller': po_edit.undelete},
 ]
