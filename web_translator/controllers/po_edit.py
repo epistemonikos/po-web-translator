@@ -30,7 +30,8 @@ def generate_db():
         for msg in messages:
             exists = request.db_cursor.execute("Select 1 from messages where id=?", (msg.msgid,))
             if exists.fetchone():
-                request.db_cursor.execute("update messages set " + lang[0] + "=? where id=?", (msg.msgstr, msg.msgid))
+                if msg.msgstr is not None and len(msg.msgstr.strip()) > 0:
+                    request.db_cursor.execute("update messages set " + lang[0] + "=? where id=?", (msg.msgstr, msg.msgid))
             else:
                 request.db_cursor.execute("insert into messages(" + lang[0] + ",id) values(?, ?)", (msg.msgstr, msg.msgid))
             request.db_cursor.execute("update messages set obsolete=0 where id=?",(msg.msgid,))
