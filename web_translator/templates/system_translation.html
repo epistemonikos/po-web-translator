@@ -45,7 +45,7 @@
 
                     <tr>
                         <td><textarea class="ta" name="msgid[]" readonly>${msg[0]}</textarea></td>
-                        <td><textarea class="translation" name="msg[]">${msg[1]}</textarea></td>
+                        <td><textarea class="translation" name="msg[]">${msg[1] if msg[1] else ''}</textarea></td>
                         %if not role or role =='Administrator':
                             <td><select name="msglvl[]">
                                 <option value=""></option>
