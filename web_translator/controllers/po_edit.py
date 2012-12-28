@@ -90,7 +90,7 @@ def generate_po_from_db(lang_to):
         messages = request.db_cursor.execute("select id, " + lang_to + " from messages where obsolete is not 1")
         new_file = POFile()
         for key, value in messages.fetchall():
-            if value is None:
+            if value is None or value == "None":
                 value = ""
             new_file.append(POEntry(msgid=key,msgstr=value))
         new_file.save(po_path)
