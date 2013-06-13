@@ -11,10 +11,13 @@
         <tr><td>${_('Message in english')}</td><td></td><td></td>
         </tr>
         <% i = 0 %>
+        <%
+          from cgi import escape
+        %>
         % for msg in msgs.fetchall():
-                <tr>
-                        <td>${msg[0].replace('>','&gt;').replace('<','&lt;')}</td>
-                        <td><a id="${i}" href="javascript:">${_('Undelete')}</a><input id="${i}message" type="hidden" value="${msg[0].replace('>','&gt;').replace('<','&lt;')}"/></td>
+                <tr> 
+                        <td>${escape(msg[0], quote=True)}</td>
+                        <td><a id="${i}" href="javascript:">${_('Undelete')}</a><textarea id="${i}message" style='display: none'>${msg[0]}</textarea></td>
                         <td><img src="/assets/images/loading_small.gif" style="display: none" id="${i}loading"/></td>
                 </tr>
             <% i = i+1 %>
@@ -29,7 +32,7 @@
                         msg = $(msgid).val()
                         parent = this.parentNode
                         $(msgimg).show(function(){
-                            $.post('/${language}/undelete',{'msg':msg.replace('&gt;','>').replace('&lt;','<')},function(){
+                            $.post('/${language}/undelete',{'msg':msg},function(){
                                 $(msgimg).hide();
                                 $(parent).html('Message undeleted');
                             });

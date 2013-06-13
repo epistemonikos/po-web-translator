@@ -132,4 +132,4 @@ def deleted():
 def undelete():
     message = request.POST.get('msg', None)
     if message is not None:
-        request.db_cursor.execute("update messages set user_level=null where id=?",(message,))
+        request.db_cursor.execute("update messages set user_level=null where id=?",(message.decode('utf-8'),))
