@@ -78,14 +78,14 @@ class DBMiddleware(object):
     def __init__(self,app):
         self.app = app
     def __call__(self, env, start_response):
-        db = sqlite3.connect(DB_PATH)
-        request.db = db
-        db_cursor = db.cursor()
-        request.db_cursor = db_cursor
+        #db = sqlite3.connect(DB_PATH)
+        #request.db = db
+        #db_cursor = db.cursor()
+        #request.db_cursor = db_cursor
         return_ = self.app(env,start_response)
-        db.commit()
-        db_cursor.close()
-        db.close()
+        #db.commit()
+        #db_cursor.close()
+        #db.close()
         return return_
 
 if os.environ.get('EPISTEMONIKOS_WEB_CONFIG'):
@@ -104,7 +104,7 @@ default_app.push()
 
 exception_handler = ExceptionsHandlerPlugin()
 bottle.install(exception_handler)
-
+bottle.install(bottle.ext.sqlite.Plugin(dbfile=DB_PATH))
 
 process_routes(ROUTES)
 
