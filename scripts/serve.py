@@ -78,12 +78,14 @@ class DBMiddleware(object):
     def __init__(self,app):
         self.app = app
     def __call__(self, env, start_response):
-        request.db = sqlite3.connect(DB_PATH)
-        request.db_cursor = request.db.cursor()
+        db = sqlite3.connect(DB_PATH)
+        request.db = db
+        db_cursor = db.cursor()
+        request.db_cursor = db_cursor
         return_ = self.app(env,start_response)
-        request.db.commit()
-        request.db_cursor.close()
-        request.db.close()
+        db.commit()
+        db_cursor.close()
+        db.close()
         return return_
 
 if os.environ.get('EPISTEMONIKOS_WEB_CONFIG'):
