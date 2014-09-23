@@ -26,6 +26,7 @@ sys.path[:0] = new_sys_path
 import bottle
 from bottle import run, default_app, route, error, request
 from bottle import PasteServer
+import bottle.ext.sqlite
 from language_middleware import LanguageMiddleware
 import sqlite3
 
