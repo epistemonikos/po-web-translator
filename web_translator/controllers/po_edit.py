@@ -122,7 +122,7 @@ def generate_link(db):
 def decode_url(hash, db):
     params = db.execute("select role, lang_to from links where hash=?",(hash,)).fetchone()
     if params:
-        return system_translate_by_role(params[1], params[0])
+        return system_translate_by_role(params[1], params[0], db)
     return "Not Found"
 
 def deleted(db):
