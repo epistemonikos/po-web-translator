@@ -17,7 +17,12 @@ setup(name='web_translator',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          "bottle==0.9.6", "lxml", "webtest>=1.3.1", "language_middleware", "mako>=0.4.1", "paste", "babel", "oauth2", "polib"
+          "bottle==0.12.7",
+          "bottle-sqlite"
+          "language_middleware",
+          "mako>=0.4.1",
+          "paste",
+          "polib",
       ],
       entry_points="""
       # -*- Entry points: -*-
