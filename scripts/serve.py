@@ -36,6 +36,10 @@ from web_translator.configs.routes import ROUTES
 from web_translator.configs import DB_PATH
 from episte_web.libs.bottle_plugins.exceptions_handler import ExceptionsHandlerPlugin
 
+
+# Set request maximum body size
+bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024 * 20
+
 ALLDIRS = ['/home/translate/envs/pydev/lib/python2.7/site-packages/']
 
 # Remember original sys.path.
