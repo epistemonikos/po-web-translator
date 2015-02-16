@@ -2,7 +2,7 @@
 import os
 
 TEMPLATES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../templates")
-LOCALE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../locale")
+LOCALE_PATH = os.environ.get('LOCALE_PATH') or os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../locale")
 DB_PATH = os.environ.get('SQLITE3_DB_PATH') or os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../db")
 TRANSLATOR_LEVELS = ['Adminstrator', 'Basic', 'Expert', 'PDQ', 'Delete']
 LOCALE_NAME = 'epistemonikos'
