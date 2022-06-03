@@ -17,7 +17,7 @@ setup(name='web_translator',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          "bottle==0.12.7",
+          "bottle==0.12.20",
           "bottle-sqlite",
           "language_middleware",
           "mako>=0.4.1",
